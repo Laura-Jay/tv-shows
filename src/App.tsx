@@ -18,7 +18,7 @@ function App(): JSX.Element {
           season={data.season}
           number={data.number}
           image={data.image.medium}
-          summary={data.summary}
+          summary={data.summary.replace(/<\/?p[^>]*>/g, "")}
         />
         <Footer />
       </>
