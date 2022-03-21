@@ -11,7 +11,6 @@ function App(): JSX.Element {
   const episodes = episodesData.map((data) => {
     return (
       <>
-        <Navbar />
         <Episode
           key={data.id}
           name={data.name}
@@ -20,12 +19,18 @@ function App(): JSX.Element {
           image={data.image.medium}
           summary={data.summary.replace(/<\/?p[^>]*>/g, "")}
         />
-        <Footer />
       </>
     );
   });
 
-  return <>{episodes}</>;
+  return (
+    <>
+      <Navbar />
+      <h1 className="title">Episode List</h1>
+      <section className="episodes-list">{episodes}</section>
+      <Footer />
+    </>
+  );
 }
 
 export default App;
