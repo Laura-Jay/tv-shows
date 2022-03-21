@@ -2,6 +2,7 @@ import Episode from "./components/Episode";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import episodesData from "./data/episodesData.json";
+import "./styles.css";
 
 function App(): JSX.Element {
   console.log("Imported, ", episodesData.length, "episode(s)");

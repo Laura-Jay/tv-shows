@@ -15,10 +15,14 @@ interface EpisodeProps {
 export default function Episode(props: EpisodeProps): JSX.Element {
   return (
     <div className="episode">
-      <h3>
+      <h2>
         {props.name} - S{props.season}E{props.number}
-      </h3>
-      <img src={props.image} alt="episode screen capture" className="episode--image" />
+      </h2>
+      <img
+        src={props.image}
+        alt="episode screen capture"
+        className="episode--image"
+      />
       {props.summary}
     </div>
   );
