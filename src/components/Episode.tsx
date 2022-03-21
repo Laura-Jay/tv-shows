@@ -15,7 +15,7 @@ interface EpisodeProps {
 export default function Episode(props: EpisodeProps): JSX.Element {
   return (
     <div className="episode">
-      <h2>
+      <h2 className="episode--name">
         {props.name} - S{props.season}E{props.number}
       </h2>
       <img
@@ -23,7 +23,7 @@ export default function Episode(props: EpisodeProps): JSX.Element {
         alt="episode screen capture"
         className="episode--image"
       />
-      {props.summary}
+      <p>{props.summary}</p>
     </div>
   );
 }
