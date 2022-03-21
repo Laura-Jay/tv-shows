@@ -37,17 +37,17 @@ export default function Episode(props: EpisodeProps): JSX.Element {
   };
 
   return (
-    <div className="episode">
-      <span>
+    <section className="episode">
+      <div className="episode--season">
         {seasonLength()}
         {episodeLength()}
-      </span>
+      </div>
       <img
         src={props.image}
         alt="episode screen capture"
         className="episode--image"
       />
       <p>{props.summary}</p>
-    </div>
+    </section>
   );
 }
