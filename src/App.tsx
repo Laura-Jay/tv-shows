@@ -26,7 +26,6 @@ function App(): JSX.Element {
   return (
     <>
       <Navbar />
-      <h1 className="title">Episode List</h1>
       <section className="episodes-list">{episodes}</section>
       <Footer />
     </>
