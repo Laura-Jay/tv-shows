@@ -58,11 +58,6 @@ body {
   letter-spacing: 0.3px;
 }
 
-.episode--season {
-  display: flex;
-  justify-content: space-between;
-}
-
 .episode--image {
   margin-bottom: 15px;
   width: 100%;

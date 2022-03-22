@@ -1,3 +1,5 @@
+import FormattingSeasonAndEpisode from "./FormattingSeasonAndEpisode";
+
 interface EpisodeProps {
   //id: number;
   //url: string;
@@ -13,35 +15,13 @@ interface EpisodeProps {
 }
 
 export default function Episode(props: EpisodeProps): JSX.Element {
-  const seasonLength = () => {
-    if (props.season < 10) {
-      return (
-        <h2 className="episode--name">
-          {props.name} S0{props.season}
-        </h2>
-      );
-    } else {
-      return (
-        <h2 className="episode--name">
-          {props.name} S{props.season}
-        </h2>
-      );
-    }
-  };
-  const episodeLength = () => {
-    if (props.number < 10) {
-      return <h2 className="episode--name">E0{props.number}</h2>;
-    } else {
-      return <h2 className="episode--name">E{props.number}</h2>;
-    }
-  };
-
   return (
     <section className="episode">
-      <div className="episode--season">
-        {seasonLength()}
-        {episodeLength()}
-      </div>
+      <h2 className="episode--name">
+        {" "}
+        {props.name} - {FormattingSeasonAndEpisode(props.season, props.number)}
+      </h2>
+
       <img
         src={props.image}
         alt="episode screen capture"
