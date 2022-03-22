@@ -1,14 +1,35 @@
 import Episode from "./components/Episode";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import episodesData from "./data/episodesData.json";
+import { useState } from "react";
 import "./styles.css";
 
-function App(): JSX.Element {
-  console.log("Imported, ", episodesData.length, "episode(s)");
-  console.log("First episodes name is ", episodesData[0].name);
+interface episodeInfoProps {
+  name: string;
+  summary: string;
+}
 
-  const episodes = episodesData.map((data) => {
+function App(): JSX.Element {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setSearchTerm(event.target.value);
+    console.log(searchTerm);
+  }
+
+  function searchEpisode(episodeInfo: episodeInfoProps) {
+    if (
+      episodeInfo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      episodeInfo.summary.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return episodeInfo;
+    }
+  }
+
+  const filteredEpisodes = episodesData.filter(searchEpisode);
+
+  const episodes = filteredEpisodes.map((data) => {
     return (
       <>
         <Episode
@@ -25,7 +46,18 @@ function App(): JSX.Element {
 
   return (
     <>
-      <Navbar />
+      <nav className="navbar">
+        <h1 className="title">Episode Guide</h1>
+        <div className="searchbar">
+          <p>Search:</p>
+          <input
+            type="text"
+            placeholder="Search an episode"
+            onChange={handleChange}
+            value={searchTerm}
+          />
+        </div>
+      </nav>
       <section className="episodes-list">{episodes}</section>
       <Footer />
     </>
