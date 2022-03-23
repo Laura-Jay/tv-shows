@@ -3,7 +3,7 @@ import SummaryFormatting from "./utils/SummaryFormatting";
 // import Navbar from "./components/Navbar";
 import episodesData from "./data/episodesData.json";
 import { useState } from "react";
-import FormattSeason from "./utils/FormattingSeasonAndEpisode";
+//import FormattSeason from "./utils/FormattingSeasonAndEpisode";
 
 interface episodeInfoProps {
   name: string;
