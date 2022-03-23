@@ -1,4 +1,4 @@
-import FormattingSeasonAndEpisode from "./FormattingSeasonAndEpisode";
+import FormattingSeasonAndEpisode from "../utils/FormattingSeasonAndEpisode";
 
 interface EpisodeProps {
   //id: number;
