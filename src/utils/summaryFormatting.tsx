@@ -1,3 +1,4 @@
 export default function summaryFormatting(summary: string): string {
-  return summary.replace(/<\/?p[^>]*>/g, "");
+  const removeP = summary.replace(/<\/?p[^>]*>/g, "");
+  return removeP.replace(/<\/?b[^>]*>/g, "");
 }
