@@ -2,7 +2,7 @@
 
 # Setup
 
-Create a new React app called tv-shows by using the Academy simplified CRA starter app.
+Create a new React app called tv-shows by using the Academy simplified <a href="https://github.com/WeAreAcademy/academy-react-starter">CRA starter app</a>
 
 # Simplified CRA starter
 
