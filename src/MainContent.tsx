@@ -1,31 +1,24 @@
 import Episode from "./components/Episode";
 // import Navbar from "./components/Navbar";
 import episodesData from "./data/episodesData.json";
+import searchEpisode from "./utils/searchEpisode";
 import { useState } from "react";
 
-interface episodeInfoProps {
-  name: string;
-  summary: string;
-}
+// interface episodeInfoProps {
+//   name: string;
+//   summary: string;
+// }
 
 function MainContent(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
-    console.log(searchTerm);
   }
 
-  function searchEpisode(episodeInfo: episodeInfoProps) {
-    if (
-      episodeInfo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      episodeInfo.summary.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
-      return episodeInfo;
-    }
-  }
-
-  const filteredEpisodes = episodesData.filter(searchEpisode);
+  const filteredEpisodes = episodesData.filter((episodeInfo) =>
+    searchEpisode(episodeInfo, searchTerm)
+  );
 
   const episodes = filteredEpisodes.map((data) => {
     return (
