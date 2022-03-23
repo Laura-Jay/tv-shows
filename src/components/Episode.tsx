@@ -1,4 +1,4 @@
-import FormattingSeasonAndEpisode from "../utils/FormattingSeasonAndEpisode";
+import formattingSeasonAndEpisode from "../utils/formattingSeasonAndEpisode";
 
 interface EpisodeProps {
   //id: number;
@@ -19,7 +19,7 @@ export default function Episode(props: EpisodeProps): JSX.Element {
     <section className="episode">
       <h2 className="episode--name">
         {" "}
-        {props.name} - {FormattingSeasonAndEpisode(props.season, props.number)}
+        {props.name} - {formattingSeasonAndEpisode(props.season, props.number)}
       </h2>
 
       <img
