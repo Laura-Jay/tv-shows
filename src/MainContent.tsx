@@ -5,7 +5,7 @@ import summaryFormatting from "./utils/summaryFormatting";
 import simpsonData from "./data/simpsonData.json";
 import searchEpisode from "./utils/searchEpisode";
 import { useState } from "react";
-//import FormattSeason from "./utils/FormattingSeasonAndEpisode";
+import formattingSeasonAndEpisode from "./utils/formattingSeasonAndEpisode";
 
 // interface episodeInfoProps {
 //   name: string;
@@ -17,8 +17,15 @@ const tvShowData = simpsonData;
 function MainContent(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [selectSearch, setSelectSearch] = useState("");
+
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
+  }
+
+  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectSearch(event.target.value);
+    console.log(selectSearch);
   }
 
   const filteredEpisodes = tvShowData.filter((episodeInfo) =>
@@ -63,6 +70,15 @@ function MainContent(): JSX.Element {
             onChange={handleChange}
             value={searchTerm}
           />
+        </div>
+        <div className="dropdown">
+          <select onChange={handleSelect}>
+            <option value="Select an episode">Select an episode</option>
+            {tvShowData.map((episode)=> 
+            <option key={episode.id} value={episode.name}>
+              {`${episode.name} - ${formattingSeasonAndEpisode(episode.season, episode.number)}`}
+              </option>)}
+            </select>
         </div>
       </nav>
       <section className="episodes-list">{episodes}</section>
