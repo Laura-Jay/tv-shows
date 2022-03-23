@@ -4,6 +4,12 @@
 
 Create a new React app called tv-shows by using the Academy simplified <a href="https://github.com/WeAreAcademy/academy-react-starter">CRA starter app</a>
 
+# Data Source 
+
+Download the episode data for the show "Game Of Thrones" from TV Maze API using this URL: <a href="https://api.tvmaze.com/shows/82/episodes">https://api.tvmaze.com/shows/82/episodes</a>
+
+Save the file as episodes.json in your project's src directory
+
 # Simplified CRA starter
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
