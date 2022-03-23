@@ -1,7 +1,9 @@
 import Episode from "./components/Episode";
+import SummaryFormatting from "./utils/SummaryFormatting";
 // import Navbar from "./components/Navbar";
 import episodesData from "./data/episodesData.json";
 import { useState } from "react";
+//import FormattSeason from "./utils/FormattingSeasonAndEpisode";
 
 interface episodeInfoProps {
   name: string;
@@ -36,7 +38,7 @@ function MainContent(): JSX.Element {
           season={data.season}
           number={data.number}
           image={data.image.medium}
-          summary={data.summary.replace(/<\/?p[^>]*>/g, "")}
+          summary={SummaryFormatting(data.summary)}
         />
       </>
     );
