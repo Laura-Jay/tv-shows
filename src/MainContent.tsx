@@ -32,6 +32,36 @@ function MainContent(): JSX.Element {
     searchEpisode(episodeInfo, searchTerm)
   );
 
+  const selectFilteredEpisodes = tvShowData.filter((episodeInfo) =>
+    searchEpisode(episodeInfo, selectSearch)
+  );
+
+  const selectedEpisodes = selectFilteredEpisodes.map((data) => {
+    return (
+      <>
+        {data.image ? (
+          <Episode
+            key={data.id}
+            name={data.name}
+            season={data.season}
+            number={data.number}
+            image={data.image.medium}
+            summary={summaryFormatting(data.summary)}
+          />
+        ) : (
+          <Episode
+            key={data.id}
+            name={data.name}
+            season={data.season}
+            number={data.number}
+            image="https://static.tvmaze.com/uploads/images/medium_landscape/398/997172.jpg"
+            summary={summaryFormatting(data.summary)}
+          />
+        )}
+      </>
+    );
+  });
+
   const episodes = filteredEpisodes.map((data) => {
     return (
       <>
@@ -73,15 +103,23 @@ function MainContent(): JSX.Element {
         </div>
         <div className="dropdown">
           <select onChange={handleSelect}>
-            <option value="Select an episode">Select an episode</option>
-            {tvShowData.map((episode)=> 
-            <option key={episode.id} value={episode.name}>
-              {`${episode.name} - ${formattingSeasonAndEpisode(episode.season, episode.number)}`}
-              </option>)}
-            </select>
+            <option value="">Select an episode</option>
+            {tvShowData.map((episode) => (
+              <option key={episode.id} value={episode.name}>
+                {`${episode.name} - ${formattingSeasonAndEpisode(
+                  episode.season,
+                  episode.number
+                )}`}
+              </option>
+            ))}
+          </select>
         </div>
       </nav>
-      <section className="episodes-list">{episodes}</section>
+      {selectSearch ? (
+        <section className="episodes-list">{selectedEpisodes}</section>
+      ) : (
+        <section className="episodes-list">{episodes}</section>
+      )}
     </>
   );
 }
