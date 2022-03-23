@@ -1,7 +1,8 @@
 import Episode from "./components/Episode";
-import SummaryFormatting from "./utils/SummaryFormatting";
+import summaryFormatting from "./utils/summaryFormatting";
 // import Navbar from "./components/Navbar";
-import episodesData from "./data/episodesData.json";
+// import episodesData from "./data/episodesData.json";
+import simpsonData from "./data/simpsonData.json";
 import searchEpisode from "./utils/searchEpisode";
 import { useState } from "react";
 //import FormattSeason from "./utils/FormattingSeasonAndEpisode";
@@ -11,6 +12,8 @@ import { useState } from "react";
 //   summary: string;
 // }
 
+const tvShowData = simpsonData;
+
 function MainContent(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -18,21 +21,32 @@ function MainContent(): JSX.Element {
     setSearchTerm(event.target.value);
   }
 
-  const filteredEpisodes = episodesData.filter((episodeInfo) =>
+  const filteredEpisodes = tvShowData.filter((episodeInfo) =>
     searchEpisode(episodeInfo, searchTerm)
   );
 
   const episodes = filteredEpisodes.map((data) => {
     return (
       <>
-        <Episode
-          key={data.id}
-          name={data.name}
-          season={data.season}
-          number={data.number}
-          image={data.image.medium}
-          summary={SummaryFormatting(data.summary)}
-        />
+        {data.image ? (
+          <Episode
+            key={data.id}
+            name={data.name}
+            season={data.season}
+            number={data.number}
+            image={data.image.medium}
+            summary={summaryFormatting(data.summary)}
+          />
+        ) : (
+          <Episode
+            key={data.id}
+            name={data.name}
+            season={data.season}
+            number={data.number}
+            image="https://static.tvmaze.com/uploads/images/medium_landscape/398/997172.jpg"
+            summary={summaryFormatting(data.summary)}
+          />
+        )}
       </>
     );
   });
