@@ -1,4 +1,4 @@
-< a href="https://www.notion.so/weareacademy/Team-C4R7-Laura-and-Tiffany-a7d9b69e58b44ed5b1f6adc702f83043">Project Notion Page</a>
+<a href="https://www.notion.so/weareacademy/Team-C4R7-Laura-and-Tiffany-a7d9b69e58b44ed5b1f6adc702f83043">Project Notion Page</a>
 
 # Setup
 
