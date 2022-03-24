@@ -16,11 +16,18 @@ export default function searchEpisode(
   data: EpisodeData,
   searchFor: string
 ): string | EpisodeData {
-  if (
-    data.name.toLowerCase().includes(searchFor.toLowerCase()) ||
-    data.summary.toLowerCase().includes(searchFor.toLowerCase())
-  ) {
-    return data;
+  if (data.summary) {
+    if (
+      data.name.toLowerCase().includes(searchFor.toLowerCase()) ||
+      data.summary.toLowerCase().includes(searchFor.toLowerCase())
+    ) {
+      return data;
+    }
+    return "";
+  } else {
+    if (data.name.toLowerCase().includes(searchFor.toLowerCase())) {
+      return data;
+    }
+    return "";
   }
-  return "";
 }
