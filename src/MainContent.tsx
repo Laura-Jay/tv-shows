@@ -7,6 +7,48 @@ import searchEpisode from "./utils/searchEpisode";
 import { useState } from "react";
 import { useEffect } from "react";
 import formattingSeasonAndEpisode from "./utils/formattingSeasonAndEpisode";
+import tvShowData from "./data/tvShowData.json";
+
+// interface TVShows {
+//   id: number;
+//   url: string;
+//   name: string;
+//   type: string;
+//   language: string;
+//   genres: string[];
+//   status: string;
+//   runtime: number;
+//   averageRuntime: number;
+//   premiered: string;
+//   ended: string;
+//   officialSite: string | null;
+//   schedule: { time: string; days: string[] };
+//   rating: { average: null | number };
+//   weight: number;
+//   network: { id: number; name: string };
+
+//   webChannel: null | {
+//     id: number;
+//     name: string;
+//     country: {
+//       name: string;
+//       code: string;
+//       timezone: string;
+//     };
+//   };
+//   dvdCountry: string | null;
+//   externals: { tvrage: number; thetvdb: number; imdb: string };
+//   image: {
+//     medium: string;
+//     original: string;
+//   };
+//   summary: string;
+//   updated: number;
+//   _links: {
+//     self: { href: string };
+//     previousepisode: { href: string };
+//   };
+// }
 
 interface EpisodeData {
   id: number;
@@ -24,14 +66,13 @@ interface EpisodeData {
 
 function MainContent(): JSX.Element {
   const [allEpisodes, setAllEpisodes] = useState<EpisodeData[]>([]);
+  const [show, setShow] = useState("82");
 
   useEffect(() => {
-    fetch("https://api.tvmaze.com/shows/179/episodes")
+    fetch(`https://api.tvmaze.com/shows/${show}/episodes`)
       .then((res) => res.json())
       .then((data: EpisodeData[]) => setAllEpisodes(data));
-  }, []);
-
-  console.log(allEpisodes);
+  }, [show]);
 
   // const tvShowData = allEpisodes;
 
@@ -46,6 +87,11 @@ function MainContent(): JSX.Element {
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectSearch(event.target.value);
     console.log(selectSearch);
+  }
+
+  function handleShowSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    setShow(event.target.value);
+    console.log(show);
   }
 
   const filteredEpisodes = allEpisodes.filter((episodeInfo) =>
@@ -130,6 +176,16 @@ function MainContent(): JSX.Element {
                   episode.season,
                   episode.number
                 )}`}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="dropdown">
+          <select onChange={handleShowSelect}>
+            <option value="">Select a TV show</option>
+            {tvShowData.map((tvShow) => (
+              <option key={tvShow.id} value={tvShow.id.toString()}>
+                {`${tvShow.name}`}
               </option>
             ))}
           </select>
