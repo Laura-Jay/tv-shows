@@ -2,19 +2,39 @@ import Episode from "./components/Episode";
 import summaryFormatting from "./utils/summaryFormatting";
 // import Navbar from "./components/Navbar";
 // import episodesData from "./data/episodesData.json";
-import simpsonData from "./data/simpsonData.json";
+// import simpsonData from "./data/simpsonData.json";
 import searchEpisode from "./utils/searchEpisode";
 import { useState } from "react";
+import { useEffect } from "react";
 import formattingSeasonAndEpisode from "./utils/formattingSeasonAndEpisode";
 
-// interface episodeInfoProps {
-//   name: string;
-//   summary: string;
-// }
-
-const tvShowData = simpsonData;
+interface EpisodeData {
+  id: number;
+  url: string;
+  name: string;
+  season: number;
+  number: number;
+  airdate: string;
+  airstamp: string;
+  runtime: number;
+  image: { medium: string; original: string } | null;
+  summary: string;
+  _links: { self: { href: string } };
+}
 
 function MainContent(): JSX.Element {
+  const [allEpisodes, setAllEpisodes] = useState<EpisodeData[]>([]);
+
+  useEffect(() => {
+    fetch("https://api.tvmaze.com/shows/179/episodes")
+      .then((res) => res.json())
+      .then((data: EpisodeData[]) => setAllEpisodes(data));
+  }, []);
+
+  console.log(allEpisodes);
+
+  // const tvShowData = allEpisodes;
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const [selectSearch, setSelectSearch] = useState("");
@@ -28,11 +48,11 @@ function MainContent(): JSX.Element {
     console.log(selectSearch);
   }
 
-  const filteredEpisodes = tvShowData.filter((episodeInfo) =>
+  const filteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, searchTerm)
   );
 
-  const selectFilteredEpisodes = tvShowData.filter((episodeInfo) =>
+  const selectFilteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, selectSearch)
   );
 
@@ -54,7 +74,7 @@ function MainContent(): JSX.Element {
             name={data.name}
             season={data.season}
             number={data.number}
-            image="https://static.tvmaze.com/uploads/images/medium_landscape/398/997172.jpg"
+            image="https://cdn.pixabay.com/photo/2017/06/08/17/32/not-found-2384304_960_720.jpg"
             summary={summaryFormatting(data.summary)}
           />
         )}
@@ -80,7 +100,7 @@ function MainContent(): JSX.Element {
             name={data.name}
             season={data.season}
             number={data.number}
-            image="https://static.tvmaze.com/uploads/images/medium_landscape/398/997172.jpg"
+            image="https://cdn.pixabay.com/photo/2017/06/08/17/32/not-found-2384304_960_720.jpg"
             summary={summaryFormatting(data.summary)}
           />
         )}
@@ -104,7 +124,7 @@ function MainContent(): JSX.Element {
         <div className="dropdown">
           <select onChange={handleSelect}>
             <option value="">Select an episode</option>
-            {tvShowData.map((episode) => (
+            {allEpisodes.map((episode) => (
               <option key={episode.id} value={episode.name}>
                 {`${episode.name} - ${formattingSeasonAndEpisode(
                   episode.season,

@@ -1,4 +1,9 @@
 export default function summaryFormatting(summary: string): string {
-  const removeP = summary.replace(/<\/?p[^>]*>/g, "");
-  return removeP.replace(/<\/?b[^>]*>/g, "");
+  if (summary) {
+    let remove = summary.replace(/<\/?p[^>]*>/g, "");
+    remove = remove.replace(/<\/?b[^>]*>/g, "");
+    return remove.replace(/<\/?i[^>]*>/g, " ");
+  } else {
+    return "No summary found";
+  }
 }
