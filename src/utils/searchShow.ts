@@ -26,7 +26,11 @@ interface TVShows {
     } | null;
   };
   dvdCountry: string | null;
-  externals: { tvrage: number | null; thetvdb: number | null; imdb: string | null};
+  externals: {
+    tvrage: number | null;
+    thetvdb: number | null;
+    imdb: string | null;
+  };
   image: {
     medium: string;
     original: string;
@@ -40,23 +44,25 @@ interface TVShows {
 }
 
 export default function searchShow(
-    data: TVShows,
-    searchFor: string ): string | TVShows {
-    if (data.summary) {
-      if (
-        data.name.toLowerCase().includes(searchFor.toLowerCase()) ||
-        data.summary.toLowerCase().includes(searchFor.toLowerCase()) ||
-        data.genres.join(" ").toLowerCase().includes(searchFor.toLowerCase())
-      ) {
-        return data;
-      }
-      return "";
-    } else {
-      if (data.name.toLowerCase().includes(searchFor.toLowerCase()) ||
-      data.genres.join(" ").toLowerCase().includes(searchFor.toLowerCase())) {
-        return data;
-      }
-      return "";
+  data: TVShows,
+  searchFor: string
+): string | TVShows {
+  if (data.summary) {
+    if (
+      data.name.toLowerCase().includes(searchFor.toLowerCase()) ||
+      data.summary.toLowerCase().includes(searchFor.toLowerCase()) ||
+      data.genres.join(" ").toLowerCase().includes(searchFor.toLowerCase())
+    ) {
+      return data;
     }
+    return "";
+  } else {
+    if (
+      data.name.toLowerCase().includes(searchFor.toLowerCase()) ||
+      data.genres.join(" ").toLowerCase().includes(searchFor.toLowerCase())
+    ) {
+      return data;
+    }
+    return "";
   }
-  
+}

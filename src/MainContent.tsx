@@ -11,7 +11,6 @@ import { useEffect } from "react";
 import formattingSeasonAndEpisode from "./utils/formattingSeasonAndEpisode";
 import tvShowData from "./data/tvShowData.json";
 
-
 interface EpisodeData {
   id: number;
   url: string;
@@ -27,7 +26,6 @@ interface EpisodeData {
 }
 
 function MainContent(): JSX.Element {
-
   //Contains all episodes fetched from the show whose id is currently contained within the show useState
   const [allEpisodes, setAllEpisodes] = useState<EpisodeData[]>([]);
 
@@ -39,7 +37,7 @@ function MainContent(): JSX.Element {
     fetch(`https://api.tvmaze.com/shows/${show}/episodes`)
       .then((res) => res.json())
       .then((data: EpisodeData[]) => setAllEpisodes(data));
-  }, [show,allEpisodes]);
+  }, [show, allEpisodes]);
 
   //toggles the view between episode-list and show-list
   const [view, setView] = useState("show-list");
@@ -56,13 +54,13 @@ function MainContent(): JSX.Element {
   const [selectShowSearch, setSelectShowSearch] = useState("");
 
   //when the "return to show list" button is clicked this sets the view back to show-list to display shows and hide episodes
-  function handleButtonClick(){
+  function handleButtonClick() {
     setSelectSearch("");
     setView("show-list");
   }
 
   //when a show is clicked this hides show list, displays episode list and passes the id of the clicked episode to the show useState
-  function handleClick(id: number){
+  function handleClick(id: number) {
     setView("episode-list");
     setShow(id.toString());
   }
@@ -77,14 +75,13 @@ function MainContent(): JSX.Element {
     setShowSearchTerm(event.target.value);
   }
 
-
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectSearch(event.target.value);
     console.log(selectSearch);
   }
 
   function handleShowSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSelectShowSearch(event.target.value);
+    setShow(event.target.value);
     setView("episode-list");
     console.log(show);
   }
@@ -92,64 +89,61 @@ function MainContent(): JSX.Element {
   const tvShowArray = tvShowData;
 
   const filteredShows = tvShowArray.filter((showInfo) =>
-    searchShow(showInfo, showSearchTerm));
+    searchShow(showInfo, showSearchTerm)
+  );
 
   const filteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, searchTerm)
   );
 
-
   const selectFilteredShows = tvShowArray.filter((showInfo) =>
     searchShow(showInfo, selectShowSearch)
   );
-
 
   const selectFilteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, selectSearch)
   );
 
-
   const tvShowList = filteredShows.map((data) => {
     return (
       <>
-      <TvShow
-      key={data.id}
-      name={data.name}
-      image={data.image.medium}
-      genres={data.genres}
-      summary={summaryFormatting(data.summary)}
-      status={data.status}
-      rating={data.rating.average}
-      runtime={data.runtime}
-      handleClick={() => handleClick(data.id)}
+        <TvShow
+          key={data.id}
+          name={data.name}
+          image={data.image.medium}
+          genres={data.genres}
+          summary={summaryFormatting(data.summary)}
+          status={data.status}
+          rating={data.rating.average}
+          runtime={data.runtime}
+          handleClick={() => handleClick(data.id)}
         />
       </>
-    )
-  })
+    );
+  });
 
   const selectedTvShows = selectFilteredShows.map((data) => {
     return (
       <>
-      <TvShow
-      key={data.id}
-      name={data.name}
-      image={data.image.medium}
-      genres={data.genres}
-      summary={summaryFormatting(data.summary)}
-      status={data.status}
-      rating={data.rating.average}
-      runtime={data.runtime}
-      handleClick={() => handleClick(data.id)}
+        <TvShow
+          key={data.id}
+          name={data.name}
+          image={data.image.medium}
+          genres={data.genres}
+          summary={summaryFormatting(data.summary)}
+          status={data.status}
+          rating={data.rating.average}
+          runtime={data.runtime}
+          handleClick={() => handleClick(data.id)}
         />
       </>
-    )
-  })
+    );
+  });
 
   const selectedEpisodes = selectFilteredEpisodes.map((data) => {
     return (
       <>
-    
-        {  data.image ? (
+        {data.image ? (
           <Episode
             key={data.id}
             name={data.name}
@@ -168,7 +162,6 @@ function MainContent(): JSX.Element {
             summary={summaryFormatting(data.summary)}
           />
         )}
-  
       </>
     );
   });
@@ -176,7 +169,7 @@ function MainContent(): JSX.Element {
   const episodes = filteredEpisodes.map((data) => {
     return (
       <>
-        { data.image ? (
+        {data.image ? (
           <Episode
             key={data.id}
             name={data.name}
@@ -203,41 +196,48 @@ function MainContent(): JSX.Element {
     <>
       <nav className="navbar">
         <h1 className="title">Episode Guide</h1>
-        { view === "show-list" && <div className="searchbar">
-          <p>Search:</p>
-          <input
-            type="text"
-            placeholder="Search a show"
-            onChange={handleShowChange}
-            value={showSearchTerm}
-          />
-        </div>}
-        { view === "episode-list" && <button 
-        className="home-button"
-        onClick={handleButtonClick}
-        >Return to Shows List</button>}
-        { view === "episode-list" && <div className="searchbar">
-          <p>Search:</p>
-          <input
-            type="text"
-            placeholder="Search an episode"
-            onChange={handleChange}
-            value={searchTerm}
-          />
-        </div>}
-        { view === "episode-list" && <div className="dropdown">
-          <select onChange={handleSelect}>
-            <option value="">Select an episode</option>
-            {allEpisodes.map((episode) => (
-              <option key={episode.id} value={episode.name}>
-                {`${episode.name} - ${formattingSeasonAndEpisode(
-                  episode.season,
-                  episode.number
-                )}`}
-              </option>
-            ))}
-          </select>
-        </div>}
+        {view === "show-list" && (
+          <div className="searchbar">
+            <p>Search:</p>
+            <input
+              type="text"
+              placeholder="Search a show"
+              onChange={handleShowChange}
+              value={showSearchTerm}
+            />
+          </div>
+        )}
+        {view === "episode-list" && (
+          <button className="home-button" onClick={handleButtonClick}>
+            Return to Shows List
+          </button>
+        )}
+        {view === "episode-list" && (
+          <div className="searchbar">
+            <p>Search:</p>
+            <input
+              type="text"
+              placeholder="Search an episode"
+              onChange={handleChange}
+              value={searchTerm}
+            />
+          </div>
+        )}
+        {view === "episode-list" && (
+          <div className="dropdown">
+            <select onChange={handleSelect}>
+              <option value="">Select an episode</option>
+              {allEpisodes.map((episode) => (
+                <option key={episode.id} value={episode.name}>
+                  {`${episode.name} - ${formattingSeasonAndEpisode(
+                    episode.season,
+                    episode.number
+                  )}`}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div className="dropdown">
           <select onChange={handleShowSelect}>
             <option value="">Select a TV show</option>
@@ -249,22 +249,24 @@ function MainContent(): JSX.Element {
           </select>
         </div>
       </nav>
-     { view === "show-list" && <div className="shows-list-view">
-       { selectShowSearch? (<div>
-        {selectedTvShows}
-        </div>) : (
-        <div>
-        {tvShowList}
-        </div> )}
-       </div>}
-       { view === "episode-list" &&
-      <div className="episodes View">
-      {selectSearch ? (
-        <section className="episodes-list">{selectedEpisodes}</section>
-      ) : (
-        <section className="episodes-list">{episodes}</section>
+      {view === "show-list" && (
+        <div className="shows-list-view">
+          {selectShowSearch ? (
+            <div>{selectedTvShows}</div>
+          ) : (
+            <div>{tvShowList}</div>
+          )}
+        </div>
       )}
-      </div>}
+      {view === "episode-list" && (
+        <div className="episodes View">
+          {selectSearch ? (
+            <section className="episodes-list">{selectedEpisodes}</section>
+          ) : (
+            <section className="episodes-list">{episodes}</section>
+          )}
+        </div>
+      )}
     </>
   );
 }
