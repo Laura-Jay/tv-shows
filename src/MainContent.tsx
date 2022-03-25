@@ -51,8 +51,6 @@ function MainContent(): JSX.Element {
   //if this has a value then selectFilteredEpisodes and only the episode matching the option selected from the selector will be displayed
   const [selectSearch, setSelectSearch] = useState("");
 
-  const [selectShowSearch, setSelectShowSearch] = useState("");
-
   //when the "return to show list" button is clicked this sets the view back to show-list to display shows and hide episodes
   function handleButtonClick() {
     setSelectSearch("");
@@ -75,11 +73,13 @@ function MainContent(): JSX.Element {
     setShowSearchTerm(event.target.value);
   }
 
+  //episode drop down bar
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectSearch(event.target.value);
     console.log(selectSearch);
   }
 
+  //tv show drop down bar
   function handleShowSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setShow(event.target.value);
     setView("episode-list");
@@ -96,9 +96,9 @@ function MainContent(): JSX.Element {
     searchEpisode(episodeInfo, searchTerm)
   );
 
-  const selectFilteredShows = tvShowArray.filter((showInfo) =>
-    searchShow(showInfo, selectShowSearch)
-  );
+  // const selectFilteredShows = tvShowArray.filter((showInfo) =>
+  //   searchShow(showInfo, "")
+  // );
 
   const selectFilteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, selectSearch)
@@ -122,23 +122,23 @@ function MainContent(): JSX.Element {
     );
   });
 
-  const selectedTvShows = selectFilteredShows.map((data) => {
-    return (
-      <>
-        <TvShow
-          key={data.id}
-          name={data.name}
-          image={data.image.medium}
-          genres={data.genres}
-          summary={summaryFormatting(data.summary)}
-          status={data.status}
-          rating={data.rating.average}
-          runtime={data.runtime}
-          handleClick={() => handleClick(data.id)}
-        />
-      </>
-    );
-  });
+  // const selectedTvShows = selectFilteredShows.map((data) => {
+  //   return (
+  //     <>
+  //       <TvShow
+  //         key={data.id}
+  //         name={data.name}
+  //         image={data.image.medium}
+  //         genres={data.genres}
+  //         summary={summaryFormatting(data.summary)}
+  //         status={data.status}
+  //         rating={data.rating.average}
+  //         runtime={data.runtime}
+  //         handleClick={() => handleClick(data.id)}
+  //       />
+  //     </>
+  //   );
+  // });
 
   const selectedEpisodes = selectFilteredEpisodes.map((data) => {
     return (
@@ -251,11 +251,7 @@ function MainContent(): JSX.Element {
       </nav>
       {view === "show-list" && (
         <div className="shows-list-view">
-          {selectShowSearch ? (
-            <div>{selectedTvShows}</div>
-          ) : (
-            <div>{tvShowList}</div>
-          )}
+          <div>{tvShowList}</div>
         </div>
       )}
       {view === "episode-list" && (
