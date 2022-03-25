@@ -1,50 +1,52 @@
+import TvShow from "./components/TvShow";
 import Episode from "./components/Episode";
 import summaryFormatting from "./utils/summaryFormatting";
 import searchEpisode from "./utils/searchEpisode";
-import { useState } from "react";
+import searchTvShow from "./utils/searchTvShow";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import formattingSeasonAndEpisode from "./utils/formattingSeasonAndEpisode";
 import tvShowData from "./data/tvShowData.json";
 
 // interface TVShows {
 //   id: number;
-//   url: string;
+//   //url: string;
 //   name: string;
-//   type: string;
-//   language: string;
-//   genres: string[];
+//   // type: string;
+//   // language: string;
+//   genres?: string[];
 //   status: string;
 //   runtime: number;
-//   averageRuntime: number;
-//   premiered: string;
-//   ended: string;
-//   officialSite: string | null;
-//   schedule: { time: string; days: string[] };
-//   rating: { average: null | number };
-//   weight: number;
-//   network: { id: number; name: string };
+//   // averageRuntime: number;
+//   // premiered: string;
+//   // ended: string;
+//   // officialSite: string | null;
+//   // schedule: { time: string; days: string[] };
+//   // rating: { average: null | number };
+//   // weight: number;
+//   // network: { id: number; name: string };
 
-//   webChannel: null | {
-//     id: number;
-//     name: string;
-//     country: {
-//       name: string;
-//       code: string;
-//       timezone: string;
-//     };
-//   };
-//   dvdCountry: string | null;
-//   externals: { tvrage: number; thetvdb: number; imdb: string };
-//   image: {
-//     medium: string;
-//     original: string;
-//   };
+//   // webChannel: null | {
+//   //   id: number;
+//   //   name: string;
+//   //   country: {
+//   //     name: string;
+//   //     code: string;
+//   //     timezone: string;
+//   //   };
+//   // };
+//   // dvdCountry: string | null;
+//   // externals: { tvrage: number; thetvdb: number; imdb: string };
+//   // image: {
+//   //   medium: string;
+//   //   original: string;
+//   // };
 //   summary: string;
-//   updated: number;
-//   _links: {
-//     self: { href: string };
-//     previousepisode: { href: string };
-//   };
+//   // updated: number;
+//   // _links: {
+//   //   self: { href: string };
+//   //   previousepisode: { href: string };
+//   // };
 // }
 
 interface EpisodeData {
@@ -74,6 +76,9 @@ function MainContent(): JSX.Element {
       .then((data: EpisodeData[]) => setAllEpisodes(data));
   }, [show]);
 
+  // setting up useState for a tv show search bar
+  const [tvShowSearch, setTvShowSearh] = useState("");
+
   //setting up useState for user input to the search bar for episodes
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -95,6 +100,11 @@ function MainContent(): JSX.Element {
     setShow(event.target.value);
   }
 
+  //updating the serach results on what the user searches for in tv show
+  function handleShowSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    setTvShowSearh(event.target.value);
+  }
+
   //updating the app with episode details depending on the search input from the user
   const filteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, searchTerm)
@@ -104,6 +114,29 @@ function MainContent(): JSX.Element {
   const selectFilteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, selectSearch)
   );
+
+  //updating results depending on the userrs keystrokes
+  const searchFilteredTvShows = tvShowData.filter((tvShowInfo) =>
+    searchTvShow(tvShowInfo, tvShowSearch)
+  );
+
+  // mapping the tv show data to be displayed
+  const tvShowList = tvShowData.map((data) => {
+    return (
+      <>
+        <TvShow
+          key={data.id}
+          name={data.name}
+          genres={data.genres}
+          status={data.status}
+          runtime={data.runtime}
+          rating={data.rating.average}
+          image={data.image.medium}
+          summary={data.summary}
+        />
+      </>
+    );
+  });
 
   // mapping the filtered results to the episodes via selector
   //if search bar is clear it shows all data
@@ -163,6 +196,25 @@ function MainContent(): JSX.Element {
     );
   });
 
+  //mapping tvshow  data depending on the search bar
+  //if the search bar is empty it shows all data
+  const alteredTvShowsList = searchFilteredTvShows.map((data) => {
+    return (
+      <>
+        <TvShow
+          key={data.id}
+          name={data.name}
+          genres={data.genres}
+          status={data.status}
+          runtime={data.runtime}
+          rating={data.rating.average}
+          image={data.image.medium}
+          summary={data.summary}
+        />
+      </>
+    );
+  });
+
   // the return statement for the MainContent so it is seetingup our formatting and
   //displaying the content depending on what the user selects
   return (
@@ -170,7 +222,16 @@ function MainContent(): JSX.Element {
       <nav className="navbar">
         <h1 className="title">Episode Guide</h1>
         <div className="searchbar">
-          <p>Search:</p>
+          <p>Search TV Shows:</p>
+          <input
+            type="text"
+            placeholder="Search a Tv Show"
+            onChange={handleShowSearch}
+            value={tvShowSearch}
+          />
+        </div>
+        <div className="searchbar">
+          <p>Search Episodes:</p>
           <input
             type="text"
             placeholder="Search an episode"
@@ -202,6 +263,11 @@ function MainContent(): JSX.Element {
           </select>
         </div>
       </nav>
+      {tvShowSearch ? (
+        <section className="tvshow-list">{alteredTvShowsList}</section>
+      ) : (
+        <section className="tvshow-list">{tvShowList}</section>
+      )}
       {selectSearch ? (
         <section className="episodes-list">{selectedEpisodes}</section>
       ) : (
