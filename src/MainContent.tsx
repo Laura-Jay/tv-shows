@@ -1,8 +1,5 @@
 import Episode from "./components/Episode";
 import summaryFormatting from "./utils/summaryFormatting";
-// import Navbar from "./components/Navbar";
-// import episodesData from "./data/episodesData.json";
-// import simpsonData from "./data/simpsonData.json";
 import searchEpisode from "./utils/searchEpisode";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -65,44 +62,54 @@ interface EpisodeData {
 }
 
 function MainContent(): JSX.Element {
+  //setting up use state for the episodes of a specfic tv shows
   const [allEpisodes, setAllEpisodes] = useState<EpisodeData[]>([]);
+  //setting up use state as a string for the show id
   const [show, setShow] = useState("82");
 
+  //getting the episode data from a selected show and pushing it to all episodes
   useEffect(() => {
     fetch(`https://api.tvmaze.com/shows/${show}/episodes`)
       .then((res) => res.json())
       .then((data: EpisodeData[]) => setAllEpisodes(data));
   }, [show]);
 
-  // const tvShowData = allEpisodes;
-
+  //setting up useState for user input to the search bar for episodes
   const [searchTerm, setSearchTerm] = useState("");
 
+  //setting up useState for the selector menu to select an episode
   const [selectSearch, setSelectSearch] = useState("");
 
+  //Updating search term each keystroke the use makes (episodes)
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
   }
 
+  //updating on what the user selects from the dropdown select menu and pass the name (episodes)
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectSearch(event.target.value);
-    console.log(selectSearch);
   }
 
+  //updating on what the user selects from the tvshow dropddown select menu and passes the id
   function handleShowSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setShow(event.target.value);
-    console.log(show);
   }
 
+  //updating the app with episode details depending on the search input from the user
   const filteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, searchTerm)
   );
 
+  //updating the app depending on the selected episode from the dropdown selector menu
   const selectFilteredEpisodes = allEpisodes.filter((episodeInfo) =>
     searchEpisode(episodeInfo, selectSearch)
   );
 
+  // mapping the filtered results to the episodes via selector
+  //if search bar is clear it shows all data
   const selectedEpisodes = selectFilteredEpisodes.map((data) => {
+    // checking for null image data and displaying an error image
+    //if null is found when displaying all episode data
     return (
       <>
         {data.image ? (
@@ -128,6 +135,8 @@ function MainContent(): JSX.Element {
     );
   });
 
+  //mapping episode data depending on the search bar
+  //if the search bar is empty it shows all data
   const episodes = filteredEpisodes.map((data) => {
     return (
       <>
@@ -154,6 +163,8 @@ function MainContent(): JSX.Element {
     );
   });
 
+  // the return statement for the MainContent so it is seetingup our formatting and
+  //displaying the content depending on what the user selects
   return (
     <>
       <nav className="navbar">

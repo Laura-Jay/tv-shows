@@ -1,20 +1,16 @@
 import formattingSeasonAndEpisode from "../utils/formattingSeasonAndEpisode";
 
+//setting up interface for the parts of episode data that we use
 interface EpisodeProps {
-  //id: number;
-  //url: string;
   name: string;
   season: number;
   number: number;
-  //airdate: string;
-  //aitstamp: string;
-  //runtime: number;
   image: string;
   summary: string;
-  //links: { self: { href: string } };
 }
 
 export default function Episode(props: EpisodeProps): JSX.Element {
+  //returning the episode data in a formatted style
   return (
     <section className="episode">
       <h2 className="episode--name">

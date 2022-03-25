@@ -12,6 +12,8 @@ interface EpisodeData {
   _links: { self: { href: string } };
 }
 
+// we arre searching through the episde data to find matches
+//this has been made case insensitive as we make it all lower case
 export default function searchEpisode(
   data: EpisodeData,
   searchFor: string
